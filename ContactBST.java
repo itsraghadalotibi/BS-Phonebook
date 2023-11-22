@@ -85,10 +85,23 @@ private ContactNode findparent(ContactNode p , ContactNode t){
 }
 }
 }
-
+public void deleteSubtree(){
+    if(current == root){
+        current = root = null;
+ }
+    else {
+        ContactNode p = current;
+        find(Relative.PARENT);
+        if(current.left == p)
+        current.left = null;
+        else
+        current.right = null;
+        current = root;
 
 }
 
+}
+}
 
 
 
