@@ -1,7 +1,7 @@
 public class ContactBST {
 
- public ContactNode root,current;
-
+    private BSNode<Contact> root;
+    private BSNode<Contact> current;
  public ContactBST(){
     root = current = null;
  }
@@ -9,82 +9,59 @@ public class ContactBST {
  return root == null;
  }
  public Contact retrieve() { 
-    if (current != null) {
-        return current.contact;
-    } else {
-        return null;
-    }
+    return current.data;
 }
-public void update(Contact newContact) {
-    if (current != null) {
-        current.contact = newContact;
-    } else {
-        throw new IllegalStateException("Cannot update a null node. Set 'current' before updating.");
+public boolean update(String key, Contact data){
+     remove_key(current.key);
+    return insert(key, data);
     }
+
+    public boolean insert(String k, Contact val){
+        BSNode<Contact> p, q = current;
+        if(findkey(k)) {
+            current = q;
+            return false;
+        }
+        p = new BSNode<>(k, val);
+
+        if (empty()) {
+            root = current = p;
+            return true;
+        }
+        else {
+            if (k.compareTo(current.key) < 0) {
+            current.left = p;}
+            else { 
+            current.right = p;}
+            current=p;
+            return true ;
+        }
 }
 
-public boolean insert(Relative rel, Contact contact){
-    switch(rel) {
-        case ROOT:
-        if(!empty()) return false;
-        current = root = new ContactNode(contact, null, null);
-                return true;
-        case PARENT:
-                return false;
-        case LEFT_CHILD:
-        if(current.left != null) return false;
-        current.left = new ContactNode(contact,null,null);
-        current = current.left;
-                return true;
-        case RIGHT_CHILD: 
-        if (current.right != null) return false;
-        current.right =new ContactNode(contact,null,null);
-        current = current.right;
-        return true;
-        default:
-                return false;
-    }
-}
+public boolean findkey(String tkey) {
+    BSNode<String> p = root , q = null;
+    if(empty()){ 
+    return false;}
 
-public boolean find(Relative rel){
-switch(rel){
-    case ROOT:
-    current = root;
-    return true;
-    case PARENT:
-    if(current == root) return false;
-    current = findparent(current, root);
-    return true;
-    case LEFT_CHILD:
-    if(current.left == null) return false;
-    current = current.left;
-    return true;
-    case RIGHT_CHILD:
-    if(current.right == null) return false;
-    current = current.right;
-    return true;
-    default:
+    while(p != null) {
+        q = p;
+
+        int comparisonResult = tkey.compareTo(p.key); 
+
+        if (comparisonResult == 0) {
+             current = p;
+             return true;
+        }
+        else if(comparisonResult < 0){  
+        p = p.left;}
+        else{ 
+        p = p.right;
+    }}
+    current = q;
     return false;
-}
-}
-private ContactNode findparent(ContactNode p , ContactNode t){
-    if (t == null) {
-        return null; // empty tree
-    }
+} 
 
-    if (t.right == null && t.left == null) {
-        return null;
-    } else if (t.right == p || t.left == p) {
-        return t; // parent is t
-    } else {
-        ContactNode q = findparent(p, t.left);
-        if (q != null) {
-            return q;
-        } else {
-            return findparent(p, t.right);
-}
-}
-}
+
 public void deleteSubtree(){
     if(current == root){
         current = root = null;
@@ -101,6 +78,76 @@ public void deleteSubtree(){
 }
 
 }
+
+public boolean removeKey(String tkey) {
+    Boolean removed = false;
+    BSNode<Contact> p = removeAux(tkey, root, removed);
+    current = root = p;
+    return removed;
+}
+
+public class BooleanWrapper {
+    boolean value;
+
+    public BooleanWrapper(boolean value) {
+        this.value = value;
+    }
+
+    public void set(boolean value) {
+        this.value = value;
+    }
+
+    public boolean get() {
+        return value;
+    }
+}
+
+private BSNode<Contact> removeAux(String key, BSNode<Contact> p, BooleanWrapper flag) {
+    BSNode<Contact> q, child = null;
+
+    if (p == null) {
+        return null;
+    }
+    int compareResult = key.compareTo(p.key);
+
+    if (compareResult < 0) {
+        p.left = removeAux(key, p.left, flag); // go left
+    } else if (compareResult > 0) {
+        p.right = removeAux(key, p.right, flag); // go right
+    } else { // key is found
+        flag.set(true);
+
+        if (p.left != null && p.right != null) { // two children
+            q = findMin(p.right);
+            p.key = q.key;
+            p.data = q.data;
+            p.right = removeAux(q.key, p.right, flag);
+        } else {
+            if (p.right == null) { // one child
+                child = p.left;
+            } else if (p.left == null) { // one child
+                child = p.right;
+            }
+
+            return child;
+        }
+    }
+
+    return p;
+}
+
+private BSNode<Contact> findMin(BSNode<Contact> p) {
+    if (p == null) {
+        return null;
+    }
+
+    while(p.left != null){
+        p = p.left;
+        }
+        return p;
+}
+
+
 }
 
 
