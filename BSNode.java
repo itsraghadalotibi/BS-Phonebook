@@ -1,14 +1,14 @@
-public class ContactNode {
+public class BSNode {
     public Contact contact;
-    public ContactNode left;
-    public ContactNode right;
+    public BSNode left;
+    public BSNode right;
 
-    public ContactNode(Contact contact) {
+    public BSNode(Contact contact) {
         this.contact = contact;
         this.left = null;
         this.right = null;
     }
-    public ContactNode(Contact contact, ContactNode left, ContactNode right) {
+    public BSNode(Contact contact, BSNode left, BSNode right) {
         this.contact = contact;
         this.left = left;
         this.right = right;
