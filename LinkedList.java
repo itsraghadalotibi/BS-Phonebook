@@ -1,7 +1,7 @@
-package PhonebookApp;
+
 public class LinkedList<T extends Comparable<T>> {
     
-    class Node<T>{
+    public static class Node<T>{
         public T data;
         public Node<T> next;
         public Node () {
@@ -67,12 +67,12 @@ public class LinkedList<T extends Comparable<T>> {
            
             Node<T> tmp;
             if (empty()) {
-                    current = head = new Node (val);
+                    current = head = new Node<> (val);
             }
             else {
                 if ( head.getData().compareTo(val) >0)
                 {
-                    tmp = new Node(val);
+                    tmp = new Node<>(val);
                     tmp.setNext(head);
                     head = tmp;
                 }
@@ -86,10 +86,10 @@ public class LinkedList<T extends Comparable<T>> {
                         prev = current;
                         current = current.getNext();
                     }
-                    tmp = new Node (val);
+                    tmp = new Node<> (val);
                     if ( current != null)
                     {
-                        tmp.next = current;
+                        tmp.setNext(current);
                         prev.next = tmp;
                         current = tmp;
                     }
@@ -128,7 +128,7 @@ public class LinkedList<T extends Comparable<T>> {
                 head = head.next;
         }
         else {
-                Node tmp = head;
+            Node<T> tmp = head;
 
                 while (tmp.next != current)
                         tmp = tmp.next;

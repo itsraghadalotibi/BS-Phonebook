@@ -1,154 +1,232 @@
-public class ContactBST {
 
-    private BSNode<Contact> root;
-    private BSNode<Contact> current;
+public class ContactBST<T> {
+    
+     public BSTNode<T> root,current;
+
  public ContactBST(){
     root = current = null;
  }
+ 
  public boolean empty(){
  return root == null;
  }
- public Contact retrieve() { 
-    return current.data;
-}
-public boolean update(String key, Contact data){
-     remove_key(current.key);
-    return insert(key, data);
+ 
+ public T retrieve() { 
+    if (current != null) {
+        return current.data;
+    } else {
+        return null;
     }
+}
+ 
+public void clear(){
+    current=root=null;
+}
+    public boolean full(){
+        return false;
+    }
+    
+    public boolean findKey(String k ){
+        
+        BSTNode<T> p=root;
 
-    public boolean insert(String k, Contact val){
-        BSNode<Contact> p, q = current;
-        if(findkey(k)) {
-            current = q;
-            return false;
+        if(empty()){  //checks if the tree is empty before starting the search
+            return false;}
+
+        while (p!= null){
+            current=p;
+            if(k.compareToIgnoreCase(p.key)==0){
+                return true;
+            }
+            else if (k.compareToIgnoreCase(p.key)<0){
+                p=p.left;
+            }
+            else {
+                p=p.right;
+            }
+        }   
+            
+          return false;      
         }
-        p = new BSNode<>(k, val);
-
-        if (empty()) {
-            root = current = p;
+        
+    public boolean insert(String k ,T val){
+        if(empty()){
+            current = root = new BSTNode<T>(k,val);
             return true;
         }
-        else {
-            if (k.compareTo(current.key) < 0) {
-            current.left = p;}
-            else { 
-            current.right = p;}
+        
+        BSTNode<T> p = current;
+        if (findKey(k)){ // the key to be inserted already exists
             current=p;
-            return true ;
+            return false;   
         }
-}
-
-public boolean findkey(String tkey) {
-    BSNode<String> p = root , q = null;
-    if(empty()){ 
-    return false;}
-
-    while(p != null) {
-        q = p;
-
-        int comparisonResult = tkey.compareTo(p.key); 
-
-        if (comparisonResult == 0) {
-             current = p;
-             return true;
+        
+        BSTNode<T> tmp = new BSTNode<>(k, val); 
+        if (k.compareToIgnoreCase(current.key)<0){
+            current.left=tmp;  
         }
-        else if(comparisonResult < 0){  
-        p = p.left;}
-        else{ 
-        p = p.right;
-    }}
-    current = q;
-    return false;
-} 
-
-
-public void deleteSubtree(){
-    if(current == root){
-        current = root = null;
- }
-    else {
-        ContactNode p = current;
-        find(Relative.PARENT);
-        if(current.left == p)
-        current.left = null;
-        else
-        current.right = null;
-        current = root;
-
-}
-
-}
-
-public boolean removeKey(String tkey) {
-    Boolean removed = false;
-    BSNode<Contact> p = removeAux(tkey, root, removed);
-    current = root = p;
-    return removed;
-}
-
-public class BooleanWrapper {
-    boolean value;
-
-    public BooleanWrapper(boolean value) {
-        this.value = value;
+        else 
+        {
+            current.right=tmp;
+        }
+        current=tmp;
+        return true;      
     }
-
-    public void set(boolean value) {
-        this.value = value;
-    }
-
-    public boolean get() {
-        return value;
-    }
-}
-
-private BSNode<Contact> removeAux(String key, BSNode<Contact> p, BooleanWrapper flag) {
-    BSNode<Contact> q, child = null;
-
-    if (p == null) {
-        return null;
-    }
-    int compareResult = key.compareTo(p.key);
-
-    if (compareResult < 0) {
-        p.left = removeAux(key, p.left, flag); // go left
-    } else if (compareResult > 0) {
-        p.right = removeAux(key, p.right, flag); // go right
-    } else { // key is found
-        flag.set(true);
-
-        if (p.left != null && p.right != null) { // two children
-            q = findMin(p.right);
-            p.key = q.key;
-            p.data = q.data;
-            p.right = removeAux(q.key, p.right, flag);
-        } else {
-            if (p.right == null) { // one child
-                child = p.left;
-            } else if (p.left == null) { // one child
-                child = p.right;
+    
+    public boolean removeKey(String k ){
+        
+        //search for k
+        String k1 = k ;
+        Node<T> p =root; 
+        Node<T> q = null; // parent of p
+        while(p!= null){
+            if(k1.compareToIgnoreCase(p.key)<0){
+                q=p;
+                p=p.left;
+            }   
+            else if (k1.compareToIgnoreCase(p.key)>0){
+                q=p;
+                p=p.right;
+                
             }
-
-            return child;
-        }
+            else 
+            {      //found the key
+                
+                if ((p.left!=null)&&(p.right!=null)){ // case 3: two children
+                    
+                    // search for the min in the right subtree
+                    Node<T> min = p.right;
+                    q=p;
+                    while(min.left!=null){
+                        q=min;
+                        min=min.left;
+                    }
+                    p.key=min.key;
+                    p.data=min.data;
+                    k1=min.key;
+                    p=min;
+                    // now fall back to either case 1 or 2
+                            
+                 }
+              
+                
+             // the subtree rooted at p will change here
+             if(p.left!= null){ // one child
+                 p=p.left;                    
+             }
+             else { // one or no childern
+                 p=p.right;
+             }
+             
+             if(q==null){ // no parent for p , root must change
+                 root=p;
+             }
+             else{
+                 if(k1.compareToIgnoreCase(q.key)<0){
+                     q.left=p;
+                 }
+                 else{
+                     q.right=p;
+                 }
+             }
+             current=root;
+             return true;
+             
+            }    
+            
+         }
+        
+    return false; // not found 
+        
+}      
+     
+    public void inOrder(){
+        
+        if(empty())
+            System.out.println("empty tree");
+        else 
+            inOrder((BSTNode<Contact>) root );
     }
-
-    return p;
-}
-
-private BSNode<Contact> findMin(BSNode<Contact> p) {
-    if (p == null) {
-        return null;
-    }
-
-    while(p.left != null){
-        p = p.left;
+        
+        private void inOrder(BSTNode<Contact> p ){
+            
+            if(p==null ) //Base Case
+                return;
+            inOrder(p.left); // Traverse the left subtree
+            System.out.println("key = "+ p.key); // Print the current 
+            System.out.println(p.data.toString()); //node's key and data
+         inOrder(p.right);     // Traverse the right subtree
         }
-        return p;
+        
+        
+      public void preOrder(){
+        
+        if(root==null)
+            System.out.println("empty tree");
+        else 
+            inOrder((BSTNode<Contact>) root );
+    }
+    
+     private void preOrder(Node<Contact> p ){
+            
+            if(p==null ) 
+                return;
+            System.out.println("key = "+ p.key);
+            System.out.println(p.data.toString());
+            inOrder(p.left);      
+            inOrder(p.right);     
+        }
+        
+    public boolean checkPhoneExist(String phone ){
+       
+        if (empty()) 
+            return false;
+        else 
+            return checkPhoneinOrder((BSTNode<Contact>)root,phone);      
+        
+    }
+    
+    private boolean checkPhoneinOrder(BSTNode<Contact> p , String phone){
+        
+        if (p==null)return false; // Base case
+
+        if (checkPhoneinOrder(p.left, phone))
+            return true;
+
+        if (p.data.getPhoneNumber().equals(phone))//Check the current node
+            return true; 
+
+        if (checkPhoneinOrder(p.right, phone))  //check the right subtree
+          return true; 
+        }
+    
+    public LinkedList<Contact> searchByFirstName(String n){
+        
+        LinkedList<Contact> matchingContacts = new LinkedList<Contact>();
+        if(!empty())
+            rSearchByFirstName(root,matchingContacts,n);
+        return matchingContacts;
+        
+         
+    }
+    
+    private void rSearchByFirstName(BSTNode<T> p , LinkedList<Contact> matchingContacts,String n ){
+        
+        if(p==null) return ;
+        rSearchByFirstName(p.left,matchingContacts,n);
+        String CurFullName=p.key;
+        String FirstName = CurFullName.substring(0, CurFullName.indexOf(" "));
+        
+        if (FirstName.equals(n)){
+            matchingContacts.insert((Contact)p.data);
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
 }
-
-
-}
-
-
 
