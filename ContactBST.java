@@ -1,7 +1,8 @@
 
+
 public class ContactBST<T> {
     
-     public BSTNode<T> root,current;
+ public BSTNode<T> root,current;
 
  public ContactBST(){
     root = current = null;
@@ -77,8 +78,8 @@ public void clear(){
         
         //search for k
         String k1 = k ;
-        Node<T> p =root; 
-        Node<T> q = null; // parent of p
+        BSTNode<T> p =root; 
+        BSTNode<T> q = null; // parent of p
         while(p!= null){
             if(k1.compareToIgnoreCase(p.key)<0){
                 q=p;
@@ -95,7 +96,7 @@ public void clear(){
                 if ((p.left!=null)&&(p.right!=null)){ // case 3: two children
                     
                     // search for the min in the right subtree
-                    Node<T> min = p.right;
+                    BSTNode<T> min = p.right;
                     q=p;
                     while(min.left!=null){
                         q=min;
@@ -167,7 +168,7 @@ public void clear(){
             inOrder((BSTNode<Contact>) root );
     }
     
-     private void preOrder(Node<Contact> p ){
+     private void preOrder(BSTNode<Contact> p ){
             
             if(p==null ) 
                 return;
@@ -203,8 +204,9 @@ public void clear(){
     public LinkedList<Contact> searchByFirstName(String n){
         
         LinkedList<Contact> matchingContacts = new LinkedList<Contact>();
-        if(!empty())
-            rSearchByFirstName(root,matchingContacts,n);
+        if(root==null) 
+            return matchingContacts;
+        rSearchByFirstName(root,matchingContacts,n);
         return matchingContacts;
         
          
@@ -212,7 +214,7 @@ public void clear(){
     
     private void rSearchByFirstName(BSTNode<T> p , LinkedList<Contact> matchingContacts,String n ){
         
-        if(p==null) return ;
+        if(p==null) return ; 
         rSearchByFirstName(p.left,matchingContacts,n);
         String CurFullName=p.key;
         String FirstName = CurFullName.substring(0, CurFullName.indexOf(" "));
