@@ -180,6 +180,23 @@ public void scheduleEvent(Event e, String ContactName){
         
     }      
             
+      
+    public Event searchEventByTitle(String n){
+        
+        if(Events.empty())
+        return null;
+        Events.findFirst();
+        while(!Events.last()){
+            if(Events.retrieve().getTitle().equals(n))
+            return Events.retrieve();  
+            Events.findFirst();      
+        }
+        if(Events.retrieve().getTitle().equals(n))
+            return Events.retrieve();
+        return null;      
+    }
+    
+    
     
     
     
