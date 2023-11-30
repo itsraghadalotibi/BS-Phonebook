@@ -12,7 +12,7 @@ private BSTNode<Contact> root,current;
  return root == null;
  }
  
- public retrieve() { 
+ public Contact retrieve() { 
     if (current != null) {
         return current.data;
     } else {
@@ -56,7 +56,7 @@ public void clear(){
             return true;
         }
         
-        BSTNode<T> p = current;
+        BSTNode<Con> p = current;
         if (findKey(k)){ // the key to be inserted already exists
             current=p;
             return false;   
@@ -74,7 +74,7 @@ public void clear(){
         return true;      
     }
     
-    public boolean removeKey(String k ){
+    public boolean DeletContactNode(String k ){
         
         //search for k
         String k1 = k ;
@@ -180,7 +180,7 @@ public void clear(){
         
     public boolean checkPhoneExist(String phone ){
        
-        if (empty()) 
+        if (root == null) 
             return false;
         else 
             return checkPhoneinOrder((BSTNode<Contact>)root,phone);      
@@ -201,9 +201,9 @@ public void clear(){
           return true; 
         }
     
-    public LinkedList<Contact> searchByFirstName(String n){
+    public Contact searchByFirstName(String n){
         
-        LinkedList<Contact> matchingContacts = new LinkedList<Contact>();
+        LinkedList<Contact> matchingContacts = new LinkedList<>();
         if(root==null) 
             return matchingContacts;
         rSearchByFirstName(root,matchingContacts,n);

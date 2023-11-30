@@ -1,21 +1,23 @@
 package PhonebookApp;
 
+import java.util.List;
+
 public class Phonebook {
     
-    static BST<Contact> Contacts;
-    static LinkedList<Event> Events;
+    static  ContactBST contactBST;
+    static List<Event> events;
 
     public phoneBook() {
-        Contacts=new BST <Contact>();
-        Events = new LinkedList<Event>();
+        this.contactBST = new ContactBST();
+        Events = new LinkedList<>();
         
     }
 
   
-public void AddContact(Contact c){
+public void AddContact(Contact contact){
     
     boolean nameInserted=false;
-    boolean phoneExist=Contacts.checkPhoneExist(c.getPhoneNumber());
+    boolean phoneExist=Contact.checkPhoneExist(c.getPhoneNumber());
     if(phoneExist)
         System.out.println("cannot add , has phone exist before " + c.getName());
     else {
@@ -39,7 +41,7 @@ public void AddContact(Contact c){
     }
     
     public LinkedList<Contact> SearchByFirstName(String s) {
-        
+        //not sure
         return Contacts.SearchByFirstName(s);
         
       
