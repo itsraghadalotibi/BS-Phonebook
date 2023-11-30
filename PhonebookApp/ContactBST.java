@@ -1,8 +1,8 @@
+package PhonebookApp;
 
-
-public class ContactBST<T> {
+public class ContactBST {
     
- public BSTNode<T> root,current;
+private BSTNode<Contact> root,current;
 
  public ContactBST(){
     root = current = null;
@@ -12,7 +12,7 @@ public class ContactBST<T> {
  return root == null;
  }
  
- public T retrieve() { 
+ public retrieve() { 
     if (current != null) {
         return current.data;
     } else {

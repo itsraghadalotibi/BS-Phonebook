@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package phaes2;
+package PhonebookApp;
 
-/**
- *
- * @author sara
- */
-public class phoneBook {
+public class Phonebook {
     
     static BST<Contact> Contacts;
     static LinkedList<Event> Events;
