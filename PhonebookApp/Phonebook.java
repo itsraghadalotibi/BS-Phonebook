@@ -24,7 +24,7 @@ public void AddContact(Contact contact){
     
     nameInserted= Contacts.insert(c.getName(),c);
     if(!nameInserted)
-            System.out.println("cannot add , name esist before"+ c.getName());
+            System.out.println("cannot add , name exist before"+ c.getName());
       
     }
 }           
