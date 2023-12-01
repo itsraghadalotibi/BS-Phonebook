@@ -18,7 +18,7 @@ class Contact implements Comparable<Contact> {
         this.address = "";
         this.birthday = "";
         this.notes = "";
-        events = new LinkedList<Events>();
+        events = new LinkedList<Event>();
     }
     
 
@@ -30,7 +30,13 @@ class Contact implements Comparable<Contact> {
         this.birthday = birthday;
         this.notes = notes;
     }
-//public boolean addEvent(Event e){}
+    public void addEvent(Event newEvent) {
+        if (!Phonebook.contactBST.search(this)) {
+            System.out.println("Error: Contact does not exist in the contact BST. Add the contact first.");
+            return;
+        }
+        events.insert(newEvent);
+    }
     
     public boolean removeEvent(String T){
         if (events.empty()) return false ;

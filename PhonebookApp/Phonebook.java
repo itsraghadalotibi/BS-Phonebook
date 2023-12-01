@@ -6,11 +6,11 @@ import java.util.Scanner;
 public class Phonebook {
     
     static ContactBST contactBST;
-    static LinkedList<Event> events;
+    static LinkedList<Event> Events;
 
     public Phonebook() {
         Phonebook.contactBST = new ContactBST();
-        events = new LinkedList<Event>();
+        Events = new LinkedList<Event>();
         
     }
     public static void main(String[] args) {
@@ -107,7 +107,7 @@ public void AddContact(Contact contact){
     }
     
     
-    public LinkedLies<Event> getEventsinContact(String s){
+    public LinkedList<Event> getEventsinContact(String s){
         
         Contact thisContact = searchByName (s);
         if(thisContact!=null)
