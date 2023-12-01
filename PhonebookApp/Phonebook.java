@@ -1,19 +1,72 @@
 package PhonebookApp;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Phonebook {
     
     static  ContactBST contactBST;
     static List<Event> events;
 
-    public phoneBook() {
-        this.contactBST = new ContactBST();
-        Events = new LinkedList<>();
+    public Phonebook() {
+        Phonebook.contactBST = new ContactBST();
+        events = new LinkedList<>();
         
     }
+    public static void main(String[] args) {
+        Phonebook phonebook = new Phonebook();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
 
-  
+        do {
+            System.out.println("Welcome to the BST Phonebook! Please choose an option:");
+            System.out.println("1. Add a contact");
+            System.out.println("2. Search for a contact");
+            System.out.println("3. Delete a contact");
+            System.out.println("4. Schedule an event/appointment");
+            System.out.println("5. Print event details");
+            System.out.println("6. Print contacts by first name");
+            System.out.println("7. Print all events alphabetically");
+            System.out.println("8. Exit");
+            
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    addContact(scanner);
+                    break;
+                case 2:
+                    searchContact(scanner);
+                    break;
+                case 3:
+                    deleteContact(scanner);
+                    break;
+                case 4:
+                    scheduleEvent(scanner);
+                    break;
+                case 5:
+                    printEventDetails(scanner);
+                    break;
+                case 6:
+                    printContactsByFirstName(scanner);
+                    break;
+                case 7:
+                    printAllEventsAlphabetically();
+                    break;
+                case 8:
+                    System.out.println("Exiting Phonebook. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 8);
+    
+
+}
+    
+
 public void AddContact(Contact contact){
     
     boolean nameInserted=false;

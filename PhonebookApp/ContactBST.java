@@ -74,60 +74,58 @@ public void clear(){
         return true;      
     }
     
-    public boolean DeletContactNode(String k ){
+    public boolean removeContact(String name ){
         
         //search for k
         String k1 = k ;
-        BSTNode<T> p =root; 
-        BSTNode<T> q = null; // parent of p
         while(p!= null){
             if(k1.compareToIgnoreCase(p.key)<0){
                 q=p;
                 p=p.left;
             }   
-            else if (k1.compareToIgnoreCase(p.key)>0){
-                q=p;
-                p=p.right;
+            else if (nameSearch.compareToIgnoreCase(current.key)>0){
+                q=current;
+                current=current.right;
                 
             }
             else 
             {      //found the key
                 
-                if ((p.left!=null)&&(p.right!=null)){ // case 3: two children
+                if ((current.left!=null)&&(current.right!=null)){ // case 3: two children
                     
                     // search for the min in the right subtree
-                    BSTNode<T> min = p.right;
-                    q=p;
+                    BSTNode<T> min = current.right;
+                    q=current;
                     while(min.left!=null){
                         q=min;
                         min=min.left;
                     }
-                    p.key=min.key;
-                    p.data=min.data;
-                    k1=min.key;
-                    p=min;
+                    current.key=min.key;
+                    current.data=min.data;
+                    nameSearch=min.key;
+                    current=min;
                     // now fall back to either case 1 or 2
                             
                  }
               
                 
              // the subtree rooted at p will change here
-             if(p.left!= null){ // one child
-                 p=p.left;                    
+             if(current.left!= null){ // one child
+                 current=current.left;                    
              }
              else { // one or no childern
-                 p=p.right;
+                 current=current.right;
              }
              
              if(q==null){ // no parent for p , root must change
-                 root=p;
+                 root=current;
              }
              else{
-                 if(k1.compareToIgnoreCase(q.key)<0){
-                     q.left=p;
+                 if(nameSearch.compareToIgnoreCase(q.key)<0){
+                     q.left=current;
                  }
                  else{
-                     q.right=p;
+                     q.right=current;
                  }
              }
              current=root;
