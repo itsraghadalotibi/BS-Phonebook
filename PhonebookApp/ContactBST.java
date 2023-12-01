@@ -185,27 +185,27 @@ public void clear(){
             inOrder(p.right);     
         }
         
-    public boolean checkPhoneExist(String phone ){
+    public boolean checkPhoneExist(String phoneNumber ){
        
         if (root == null) 
             return false;
         else 
-            return checkPhoneinOrder(root,phone);      
+            return checkPhoneinOrder(root,phoneNumber);      
         
     }
     
-    private boolean checkPhoneinOrder(BSTNode p , String phone){
+    private boolean checkPhoneinOrder(BSTNode p, String phoneNumber){
         
         if (p==null)return false; // Base case
 
-        if (checkPhoneinOrder(p.left, phone))
-            return true;
+        if (checkPhoneinOrder(p.left, phoneNumber)){ 
+            return true;}
 
-        if (p.data.getPhoneNumber().equals(phone))//Check the current node
-            return true; 
+        if (p.data.getPhoneNumber().equals(phoneNumber)){//Check the current node
+            return true; }
 
-        if (checkPhoneinOrder(p.right, phone))  //check the right subtree
-          return true; 
+            return checkPhoneinOrder(p.right, phoneNumber);  //check the right subtree
+           
         }
     
     public Contact searchByFirstName(String n){

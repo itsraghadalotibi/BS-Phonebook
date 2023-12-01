@@ -6,11 +6,11 @@ import java.util.Scanner;
 public class Phonebook {
     
     static ContactBST contactBST;
-    static LinkedList<Event> Events;
+    static LinkedList<Event> events;
 
     public Phonebook() {
-        Phonebook.contactBST = new ContactBST();
-        Events = new LinkedList<Event>();
+        contactBST = new ContactBST();
+        events = new LinkedList<Event>();
         
     }
     public static void main(String[] args) {
@@ -35,8 +35,27 @@ public class Phonebook {
 
             switch (choice) {
                 case 1:
-                    addContact(scanner);
-                    break;
+                System.out.print("Enter the contact's name: ");
+                String name = scanner.nextLine();
+        
+                System.out.print("Enter the contact's phone number: ");
+                String phoneNumber = scanner.nextLine();
+        
+                System.out.print("Enter the contact's email address: ");
+                String email = scanner.nextLine();
+        
+                System.out.print("Enter the contact's address: ");
+                String address = scanner.nextLine();
+        
+                System.out.print("Enter the contact's birthday: ");
+                String birthday = scanner.nextLine();
+        
+                System.out.print("Enter any notes for the contact: ");
+                String notes = scanner.nextLine();
+        
+                Contact newContact = new Contact(name, phoneNumber, email, address, birthday, notes);
+                phonebook.AddContact(newContact);
+                break;
                 case 2:
                     searchContact(scanner);
                     break;
@@ -70,12 +89,12 @@ public class Phonebook {
 public void AddContact(Contact contact){
     
     boolean nameInserted=false;
-    boolean phoneExist=Contact.checkPhoneExist(c.getPhoneNumber());
+    boolean phoneExist=contactBST.checkPhoneExist(contact.getPhoneNumber());
     if(phoneExist)
-        System.out.println("cannot add , has phone exist before " + c.getName());
+        System.out.println("cannot add , has phone exist before " + contact.getName());
     else {
     
-    nameInserted= Contacts.insert(c.getName(),c);
+        nameInserted = contactBST.insert(contact.getName(), contact);
     if(!nameInserted)
             System.out.println("cannot add , name exist before"+ c.getName());
       
