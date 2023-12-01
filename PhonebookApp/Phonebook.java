@@ -92,9 +92,6 @@ public class Phonebook {
                     String searchTerm = scanner.nextLine();
 
                     phonebook.searchContact(searchCriteria, searchTerm);
-                
-
-                phonebook.searchContact(searchCriteria, searchTerm);
                 break;
                 case 3:
                     deleteContact(scanner);
@@ -164,7 +161,8 @@ public void searchContact(int searchCriteria, String searchTerm) {
         default:
             System.out.println("Invalid search criteria.");
     }
-
+    }
+}
 
     
     public LinkedList<Contact> SearchByFirstName(String s) {

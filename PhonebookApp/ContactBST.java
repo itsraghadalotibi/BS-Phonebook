@@ -11,7 +11,9 @@ private BSTNode root,current;
  public boolean empty(){
  return root == null;
  }
- 
+ public BSTNode getRoot() {
+    return root;
+}
  public Contact retrieve() { 
     if (current != null) {
         return current.data;
@@ -194,7 +196,7 @@ public void clear(){
            // inOrder(p.right);     
        // } 
         
-    public boolean checkPhoneExist(String phoneNumber ){
+public boolean checkPhoneExist(String phoneNumber ){
        
         if (root == null) 
             return false;
@@ -203,7 +205,7 @@ public void clear(){
         
     }
     
-    private boolean checkPhoneinOrder(BSTNode p, String phoneNumber){
+private boolean checkPhoneinOrder(BSTNode p, String phoneNumber){
         
         if (p==null)return false; // Base case
 

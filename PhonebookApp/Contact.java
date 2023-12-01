@@ -41,7 +41,7 @@ class Contact implements Comparable<Contact> {
     public boolean removeEvent(String T){
         if (events.empty()) return false ;
         
-        Event tempEvent= new Event();
+        Event tempEvent= new Event(T, "", "", "", "");
         tempEvent.title = T;
         if(events.search(tempEvent)){
         events.remove(tempEvent);
@@ -129,5 +129,6 @@ class Contact implements Comparable<Contact> {
         System.out.println("Address: " + address);
         System.out.println("Birthday: " + birthday);
         System.out.println("Notes: " + notes);
-        System.out.println("Events: " + events.toString());}
+        System.out.println("Events: " + events.toString());
+}
 }

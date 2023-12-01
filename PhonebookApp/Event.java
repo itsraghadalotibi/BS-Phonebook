@@ -4,7 +4,7 @@ import java.sql.Time;
 
 public class Event implements Comparable<Event> {
     
-    private String title;
+    String title;
     private String date;
     private String time;
     private String location;
