@@ -2,7 +2,7 @@ package PhonebookApp;
 
 public class ContactBST {
     
-private BSTNode<Contact> root,current;
+private BSTNode root,current;
 
  public ContactBST(){
     root = current = null;
@@ -29,7 +29,7 @@ public void clear(){
     
     public boolean findKey(String k ){
         
-        BSTNode<T> p=root;
+        BSTNode p=root;
 
         if(empty()){  //checks if the tree is empty before starting the search
             return false;}
@@ -50,19 +50,19 @@ public void clear(){
           return false;      
         }
         
-    public boolean insert(String k ,T val){
+    public boolean insert(String k ,Contact val){
         if(empty()){
-            current = root = new BSTNode<T>(k,val);
+            current = root = new BSTNode (k,val);
             return true;
         }
         
-        BSTNode<Con> p = current;
+        BSTNode p = current;
         if (findKey(k)){ // the key to be inserted already exists
             current=p;
             return false;   
         }
         
-        BSTNode<T> tmp = new BSTNode<>(k, val); 
+        BSTNode tmp = new BSTNode (k, val); 
         if (k.compareToIgnoreCase(current.key)<0){
             current.left=tmp;  
         }
@@ -74,80 +74,89 @@ public void clear(){
         return true;      
     }
     
-    public boolean removeContact(String name ){
+    public boolean removeKey(String name ){
         
         //search for k
-        String k1 = k ;
-        while(p!= null){
-            if(k1.compareToIgnoreCase(p.key)<0){
-                q=p;
-                p=p.left;
+        String nameSearch = name ;
+        BSTNode current =root; 
+        BSTNode parent = null; // parent of current
+        while(current != null){
+            int comparison = nameSearch.compareToIgnoreCase(current.key);
+            if(comparison<0){
+                parent=current;
+                current=current.left;
             }   
-            else if (nameSearch.compareToIgnoreCase(current.key)>0){
-                q=current;
+            else if (comparison>0){
+                parent=current;
                 current=current.right;
                 
             }
-            else 
-            {      //found the key
-                
-                if ((current.left!=null)&&(current.right!=null)){ // case 3: two children
-                    
-                    // search for the min in the right subtree
-                    BSTNode<T> min = current.right;
-                    q=current;
-                    while(min.left!=null){
-                        q=min;
-                        min=min.left;
-                    }
-                    current.key=min.key;
-                    current.data=min.data;
-                    nameSearch=min.key;
-                    current=min;
-                    // now fall back to either case 1 or 2
-                            
-                 }
-              
-                
-             // the subtree rooted at p will change here
-             if(current.left!= null){ // one child
-                 current=current.left;                    
-             }
-             else { // one or no childern
-                 current=current.right;
-             }
-             
-             if(q==null){ // no parent for p , root must change
-                 root=current;
-             }
-             else{
-                 if(nameSearch.compareToIgnoreCase(q.key)<0){
-                     q.left=current;
-                 }
-                 else{
-                     q.right=current;
-                 }
-             }
-             current=root;
-             return true;
-             
-            }    
-            
-         }
+            else { 
+                  break;   // Node to be removed is found
+            }
+        }
+        if (current == null) {
+            // Node not found
+            return false;
+        }
+             // Case 1: Node to be removed has no children
+    if (current.left == null && current.right == null) {
+        if (parent == null) {
+            // Node is the root
+            root = null;
+        } else if (current == parent.left) {
+            parent.left = null;
+        } else {
+            parent.right = null;
+        }
+    }
+    // Case 2: Node to be removed has one child
+    else if (current.left == null || current.right == null) {
+        BSTNode child = (current.left != null) ? current.left : current.right;
+
+        if (parent == null) {
+            // Node is the root
+            root = child;
+        } else if (current == parent.left) {
+            parent.left = child;
+        } else {
+            parent.right = child;
+        }
+    }
+    // Case 3: Node to be removed has two children
+    else {
+        // Find the minimum node in the right subtree
+        BSTNode min = current.right;
+        parent = current;
+        while (min.left != null) {
+            parent = min;
+            min = min.left;} 
+
+        // Replace the current node's key and data with the min node's key and data
+        current.key = min.key;
+        current.data = min.data;
+        // Remove the min node (which has at most one right child)
+        if (parent.left == min) {
+            parent.left = min.right;
+        } else {
+            parent.right = min.right;
+        }
+        }
+        return true ;
+    }
+    
         
-    return false; // not found 
-        
-}      
+     
      
     public void inOrder(){
         
         if(empty())
             System.out.println("empty tree");
         else 
-            inOrder((BSTNode<Contact>) root );
+            inOrder( root );
     }
         
-        private void inOrder(BSTNode<Contact> p ){
+        private void inOrder(BSTNode p ){
             
             if(p==null ) //Base Case
                 return;
@@ -163,10 +172,10 @@ public void clear(){
         if(root==null)
             System.out.println("empty tree");
         else 
-            inOrder((BSTNode<Contact>) root );
+            inOrder(root );
     }
     
-     private void preOrder(BSTNode<Contact> p ){
+     private void preOrder(BSTNode p ){
             
             if(p==null ) 
                 return;
@@ -181,11 +190,11 @@ public void clear(){
         if (root == null) 
             return false;
         else 
-            return checkPhoneinOrder((BSTNode<Contact>)root,phone);      
+            return checkPhoneinOrder(root,phone);      
         
     }
     
-    private boolean checkPhoneinOrder(BSTNode<Contact> p , String phone){
+    private boolean checkPhoneinOrder(BSTNode p , String phone){
         
         if (p==null)return false; // Base case
 
@@ -210,7 +219,7 @@ public void clear(){
          
     }
     
-    private void rSearchByFirstName(BSTNode<T> p , LinkedList<Contact> matchingContacts,String n ){
+    private void rSearchByFirstName(BSTNode p , LinkedList<Contact> matchingContacts,String n ){
         
         if(p==null) return ; 
         rSearchByFirstName(p.left,matchingContacts,n);
@@ -218,7 +227,7 @@ public void clear(){
         String FirstName = CurFullName.substring(0, CurFullName.indexOf(" "));
         
         if (FirstName.equals(n)){
-            matchingContacts.insert((Contact)p.data);
+            matchingContacts.insert(p.data);
         }
         
         
