@@ -1,6 +1,8 @@
 package PhonebookApp;
 
-public class Event {
+import java.sql.Time;
+
+public class Event implements Comparable<Event> {
     
     private String title;
     private String date;
@@ -101,7 +103,11 @@ public class Event {
     }
     
     
-    
+    @Override
+public int compareTo(Event otherEvent) {
+    return this.title.compareTo(otherEvent.getTitle());
+}
+
     
     
     

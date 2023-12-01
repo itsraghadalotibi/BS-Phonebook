@@ -67,37 +67,25 @@ public class LinkedList<T extends Comparable<T>> {
     public boolean insert (T val) {
            
             Node<T> tmp;
-            if (empty()) {
-                    current = head = new Node<> (val);
+            Node<T> prev = null;
+            current = head;
+            while (current != null && current.getData().compareTo(val) <= 0) {
+                prev = current;
+                current = current.getNext();
             }
-            else {
-                if ( head.getData().compareTo(val) >0)
-                {
-                    tmp = new Node<>(val);
-                    tmp.setNext(head);
-                    head = tmp;
-                }
-                else
-                {
-                    Node<T> prev = null;
-                    current = head;
-                    
-                    while (( current != null ) && (current.getData().compareTo(val) <= 0))
-                    {
-                        prev = current;
-                        current = current.getNext();
-                    }
-                    tmp = new Node<> (val);
-                    if ( current != null)
-                    {
-                        tmp.setNext(current);
-                        prev.next = tmp;
-                        current = tmp;
-                    }
-                    else
-                        current = prev.next =tmp;
-                }
+    
+            tmp = new Node<>(val);
+    
+            if (prev == null) {
+                // Insert at the beginning
+                tmp.setNext(head);
+                head = tmp;
+            } else {
+                // Insert somewhere in the middle or at the end
+                tmp.setNext(current);
+                prev.setNext(tmp);
             }
+    
             size++;
             return true;
     }

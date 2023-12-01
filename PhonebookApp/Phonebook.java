@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class Phonebook {
     
-    static  ContactBST contactBST;
-    static List<Event> events;
+    static ContactBST contactBST;
+    static LinkedList<Event> events;
 
     public Phonebook() {
         Phonebook.contactBST = new ContactBST();
-        events = new LinkedList<>();
+        events = new LinkedList<Event>();
         
     }
     public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class Phonebook {
             System.out.println("6. Print contacts by first name");
             System.out.println("7. Print all events alphabetically");
             System.out.println("8. Exit");
-            
+
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
