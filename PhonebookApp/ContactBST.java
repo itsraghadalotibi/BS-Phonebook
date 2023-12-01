@@ -51,27 +51,36 @@ public void clear(){
         }
         
     public boolean insert(String k ,Contact val){
-        if(empty()){
-            current = root = new BSTNode (k,val);
+        if (empty()) {
+            current = root = new BSTNode(k, val);
             return true;
         }
-        
-        BSTNode p = current;
-        if (findKey(k)){ // the key to be inserted already exists
-            current=p;
-            return false;   
+    
+        BSTNode parent = null;
+        BSTNode current = root;
+        while (current != null) {
+            parent = current;
+            int comparison = k.compareToIgnoreCase(current.key);
+            if (comparison < 0) {
+                current = current.left;
+            } else if (comparison > 0) {
+                current = current.right;
+            } else {
+                // Key already exists
+                return false;
+            }
         }
-        
-        BSTNode tmp = new BSTNode (k, val); 
-        if (k.compareToIgnoreCase(current.key)<0){
-            current.left=tmp;  
+    
+        // Insert the new node
+        BSTNode newNode = new BSTNode(k, val);
+        if (k.compareToIgnoreCase(parent.key) < 0) {
+            parent.left = newNode;
+        } else {
+            parent.right = newNode;
         }
-        else 
-        {
-            current.right=tmp;
-        }
-        current=tmp;
-        return true;      
+    
+        current = newNode; // Update current to the newly inserted node
+        return true;
     }
     
     public boolean removeKey(String name ){
@@ -167,23 +176,23 @@ public void clear(){
         }
         
         
-      public void preOrder(){
+      //public void preOrder(){
         
-        if(root==null)
-            System.out.println("empty tree");
-        else 
-            inOrder(root );
-    }
+       // if(root==null)
+          //  System.out.println("empty tree");
+       // else 
+           // inOrder(root );
+  //  }
     
-     private void preOrder(BSTNode p ){
+     //*private void preOrder(BSTNode p ){
             
-            if(p==null ) 
-                return;
-            System.out.println("key = "+ p.key);
-            System.out.println(p.data.toString());
-            inOrder(p.left);      
-            inOrder(p.right);     
-        }
+        //    if(p==null ) 
+        //        return;
+           // System.out.println("key = "+ p.key);
+          //  System.out.println(p.data.toString());
+           // inOrder(p.left);      
+           // inOrder(p.right);     
+       // } 
         
     public boolean checkPhoneExist(String phoneNumber ){
        
@@ -207,8 +216,98 @@ public void clear(){
             return checkPhoneinOrder(p.right, phoneNumber);  //check the right subtree
            
         }
+
+public boolean searchByName(BSTNode node, String name) {
+            if (node == null) {
+                return false;
+            }
     
-    public Contact searchByFirstName(String n){
+            int comparison = node.data.compareTo(new Contact(name, "", "", "", "", ""));
+            if (comparison == 0) {
+                node.data.printContact();
+                return true;
+            } else if (comparison < 0) {
+                return searchByName(node.left, name);
+            } else {
+                return searchByName(node.right, name);
+            }
+        }
+
+public boolean searchByPhoneNumber(BSTNode node, String phoneNumber) {
+            if (node == null) {
+                return false;
+            }
+    
+            int comparison = node.data.compareToPhone(phoneNumber);
+            if (comparison == 0) {
+                System.out.println(node.data);
+                return true;
+            } else if (comparison < 0) {
+                return searchByPhoneNumber(node.left, phoneNumber);
+            } else {
+                return searchByPhoneNumber(node.right, phoneNumber);
+            }
+        }
+public boolean searchByEmailAddress(BSTNode node, String emailAddress) {
+            if (node == null) {
+                return false;
+            }
+        
+            int comparison = node.data.compareToEmail(emailAddress);
+            boolean found = false;
+        
+            if (comparison == 0) {
+                node.data.printContact();
+                found = true;
+            }
+        
+            // Continue searching in both subtrees
+            boolean leftFound = searchByEmailAddress(node.left, emailAddress);
+            boolean rightFound = searchByEmailAddress(node.right, emailAddress);
+        
+            return found || leftFound || rightFound;
+        }
+
+public boolean searchByAddress(BSTNode node, String address) {
+            if (node == null) {
+                return false;
+            }
+        
+            int comparison = node.data.compareToAddress(address);
+            boolean found = false;
+        
+            if (comparison == 0) {
+                node.data.printContact();
+                found = true;
+            }
+        
+            //Continue searching in both subtrees
+            boolean leftFound = searchByAddress(node.left, address);
+            boolean rightFound = searchByAddress(node.right, address);
+        
+            return found || leftFound || rightFound;
+        }       
+ 
+public boolean searchByBirthday(BSTNode node, String birthday) {
+            if (node == null) {
+                return false;
+            }
+        
+            int comparison = node.data.compareToBirthday(birthday);
+            boolean found = false;
+        
+            if (comparison == 0) {
+                node.data.printContact();
+                found = true;
+            }
+        
+            // Continue searching in both subtrees
+            boolean leftFound = searchByBirthday(node.left, birthday);
+            boolean rightFound = searchByBirthday(node.right, birthday);
+        
+            return found || leftFound || rightFound;
+        }      
+ public Contact searchByFirstName(String n){
         
         LinkedList<Contact> matchingContacts = new LinkedList<>();
         if(root==null) 

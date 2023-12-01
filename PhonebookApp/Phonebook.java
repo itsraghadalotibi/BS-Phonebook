@@ -57,8 +57,45 @@ public class Phonebook {
                 phonebook.AddContact(newContact);
                 break;
                 case 2:
-                    searchContact(scanner);
-                    break;
+                System.out.println("Enter search criteria:");
+                System.out.println("1. Name");
+                System.out.println("2. Phone Number");
+                System.out.println("3. Email Address");
+                System.out.println("4. Address");
+                System.out.println("5. Birthday");
+
+                int searchCriteria = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                String prompt = "";
+                switch (searchCriteria) {
+                    case 1:
+                        prompt = "Name";
+                        break;
+                    case 2:
+                        prompt = "Phone Number";
+                        break;
+                    case 3:
+                        prompt = "Email Address";
+                        break;
+                    case 4:
+                        prompt = "Address";
+                        break;
+                    case 5:
+                        prompt = "Birthday";
+                        break;
+                    default:
+                        System.out.println("Invalid search criteria.");
+                        continue; // Skip to the next iteration of the loop
+                }
+                System.out.print("Enter search term for " + prompt + ": ");
+                    String searchTerm = scanner.nextLine();
+
+                    phonebook.searchContact(searchCriteria, searchTerm);
+                
+
+                phonebook.searchContact(searchCriteria, searchTerm);
+                break;
                 case 3:
                     deleteContact(scanner);
                     break;
@@ -93,24 +130,42 @@ public void AddContact(Contact contact){
     if(phoneExist)
         System.out.println("cannot add , has phone exist before " + contact.getName());
     else {
-    
+        boolean nameExists = contactBST.findKey(contact.getName());
+        if (nameExists) {
+            System.out.println("Cannot add, contact with the same name already exists: " + contact.getName());
+        } else {
         nameInserted = contactBST.insert(contact.getName(), contact);
-    if(!nameInserted)
-            System.out.println("cannot add , name exist before"+ c.getName());
-      
     }
-}           
+}     }      
     
-    public Contact searchByName (String s){
-        
-       if(Contacts.empty()) 
-        return null;
-       boolean found= Contacts.findKey(s);
-       if(found)
-           return Contacts.retrieve();
-       return null;
-       
+public void searchContact(int searchCriteria, String searchTerm) {
+    if (contactBST.findKey(searchTerm)) {
+    switch (searchCriteria) {
+        case 1:
+            // Search by Name
+            contactBST.searchByName(contactBST.getRoot(), searchTerm);
+            break;
+        case 2:
+            // Search by Phone Number
+            contactBST.searchByPhoneNumber(contactBST.getRoot(), searchTerm);
+            break;
+        case 3:
+            // Search by Email Address
+            contactBST.searchByEmailAddress(contactBST.getRoot(), searchTerm);
+            break;
+        case 4:
+            // Search by Address
+            contactBST.searchByAddress(contactBST.getRoot(), searchTerm);
+            break;
+        case 5:
+            // Search by Birthday
+            contactBST.searchByBirthday(contactBST.getRoot(), searchTerm);
+            break;
+        default:
+            System.out.println("Invalid search criteria.");
     }
+
+
     
     public LinkedList<Contact> SearchByFirstName(String s) {
         //not sure

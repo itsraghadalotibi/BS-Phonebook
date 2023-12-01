@@ -119,5 +119,15 @@ class Contact implements Comparable<Contact> {
             return (all[0].compareToIgnoreCase(name) ) ;
         
         
+        
     }
+
+    public void printContact() {
+        System.out.println("Name: " + name);
+        System.out.println("Phone Number: " + phoneNumber);
+        System.out.println("Email: " + email);
+        System.out.println("Address: " + address);
+        System.out.println("Birthday: " + birthday);
+        System.out.println("Notes: " + notes);
+        System.out.println("Events: " + events.toString());}
 }
