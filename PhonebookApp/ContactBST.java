@@ -218,8 +218,10 @@ private boolean checkPhoneinOrder(BSTNode p, String phoneNumber){
             return checkPhoneinOrder(p.right, phoneNumber);  //check the right subtree
            
         }
-
-public boolean searchByName(BSTNode node, String name) {
+public boolean searchContactByName(String name) {
+            return searchByName(root, name);
+        }
+private boolean searchByName(BSTNode node, String name) {
             if (node == null) {
                 return false;
             }

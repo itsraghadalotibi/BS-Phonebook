@@ -4,22 +4,21 @@ import java.sql.Time;
 
 public class Event implements Comparable<Event> {
     
-    String title;
+    private String title;
     private String date;
     private String time;
     private String location;
-    private String ContactName;
-    private String start,end;
-    private Time st,ed;
-    public boolean isEvent=true;
-    public LinkedList<Contact>contactWithEvent=new LinkedList<Contact>();
+    private boolean isEvent;
+    private LinkedList<Contact> contacts;
 
-    public Event(String title, String date, String time, String location, String ContactName) {
+    public Event(boolean isEvent,String title, String date, String time, String location) {
+        this.isEvent = isEvent;
         this.title = title;
         this.date = date;
         this.time = time;
         this.location = location;
-        this.ContactName = ContactName;
+        this.contacts = new LinkedList<>();
+        
     }
 
     public String getTitle() {
@@ -101,7 +100,22 @@ public class Event implements Comparable<Event> {
     public void setIsEvent(boolean isEvent) {
         this.isEvent = isEvent;
     }
-    
+    public void addContact(Contact contact) {
+        contacts.insert(contact);
+    }
+    public void removeContact(Contact contact) {
+        contacts.remove(contact);
+    }
+public void removeContact(Contact contact) {
+        contacts.remove(contact);
+    }
+
+    public boolean hasContact(String contactName){
+        return contacts.search(contactName);
+    }
+    public LinkedList<Contact> getContacts() {
+        return contacts;
+    }
     
     @Override
 public int compareTo(Event otherEvent) {

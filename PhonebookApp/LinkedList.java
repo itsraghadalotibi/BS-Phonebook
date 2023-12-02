@@ -90,18 +90,29 @@ public class LinkedList<T extends Comparable<T>> {
             return true;
     }
 
-    public boolean search (T val)
+    public boolean search (T contactName)
     {
         if (head == null)
             return false;
         
         Node<T> node  = head;
-        while ((node != null) && (node.getData().compareTo(val) != 0))
+        while ((node != null) && (node.getData().compareTo(contactName) != 0))
             node = node.getNext();
-        if ((node != null) && (node.getData().compareTo(val) == 0))
+        if ((node != null) && (node.getData().compareTo(contactName) == 0))
         {
             current = node;
             return true;
+        }
+        return false;
+    }
+    public boolean search(String val) {
+        Node<T> node = head;
+        while (node != null) {
+            if (node.getData().toString().equals(val)) {
+                current = node;
+                return true;
+            }
+            node = node.getNext();
         }
         return false;
     }

@@ -1,6 +1,6 @@
 package PhonebookApp;
 
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Phonebook {
@@ -91,10 +91,13 @@ public class Phonebook {
                 System.out.print("Enter search term for " + prompt + ": ");
                     String searchTerm = scanner.nextLine();
 
-                    phonebook.searchContact(searchCriteria, searchTerm);
+                   if( ! phonebook.searchContact(searchCriteria, searchTerm))
+
                 break;
                 case 3:
-                    deleteContact(scanner);
+                System.out.print("Enter the contact's name to delete: ");
+                String nameToDelete = scanner.nextLine();
+                    deleteContact(nameToDelete);
                     break;
                 case 4:
                     scheduleEvent(scanner);
@@ -136,35 +139,71 @@ public void AddContact(Contact contact){
 }     }      
     
 public void searchContact(int searchCriteria, String searchTerm) {
-    if (contactBST.findKey(searchTerm)) {
+    boolean contactFound = false;
     switch (searchCriteria) {
         case 1:
             // Search by Name
-            contactBST.searchByName(contactBST.getRoot(), searchTerm);
+            contactFound = contactBST.searchContactByName(searchTerm);
             break;
         case 2:
             // Search by Phone Number
-            contactBST.searchByPhoneNumber(contactBST.getRoot(), searchTerm);
+           contactFound =  contactBST.searchByPhoneNumber(contactBST.getRoot(), searchTerm);
             break;
         case 3:
             // Search by Email Address
-            contactBST.searchByEmailAddress(contactBST.getRoot(), searchTerm);
+           contactFound =  contactBST.searchByEmailAddress(contactBST.getRoot(), searchTerm);
             break;
         case 4:
             // Search by Address
-            contactBST.searchByAddress(contactBST.getRoot(), searchTerm);
+            contactFound = contactBST.searchByAddress(contactBST.getRoot(), searchTerm);
             break;
         case 5:
             // Search by Birthday
-            contactBST.searchByBirthday(contactBST.getRoot(), searchTerm);
+           contactFound =  contactBST.searchByBirthday(contactBST.getRoot(), searchTerm);
             break;
         default:
             System.out.println("Invalid search criteria.");
     }
+    if (!contactFound) {
+        System.out.println("Contact not found.");
     }
-}
+    }
 
-    
+    public void deleteContact(String nameToDelete) {
+        // Check if the contact exists before deleting
+        if (contactBST.findKey(nameToDelete)) {
+        // Retrieve the contact from the contact BST
+        Contact deletedContact = contactBST.retrieve();
+        // Remove contact from the contact BST
+        boolean contactRemoved = contactBST.removeKey(nameToDelete);
+
+       if (contactRemoved) {
+        // Remove the contact from any scheduled events
+        removeContactFromEvents(deletedContact);
+        System.out.println("Contact deleted successfully.");
+        } else {
+            System.out.println("Failed to delete contact.");
+        }
+    }
+    else {
+        System.out.println("Contact not found.");
+    }
+    }
+
+    private void removeContactFromEvents(Contact contactName) {
+
+        // Iterate through events and remove the contact
+        events.findFirst();
+        while (!events.last()) {
+            Event currentEvent = events.retrieve();
+            if (currentEvent.hasContact(contactName)) {
+                // Remove the contact from the event
+                currentEvent.removeContact(contactName);
+                System.out.println("Contact removed from event: " + currentEvent.getTitle());
+            }
+            events.findNext();
+        }
+
     public LinkedList<Contact> SearchByFirstName(String s) {
         //not sure
         return Contacts.SearchByFirstName(s);
