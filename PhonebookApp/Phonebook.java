@@ -123,14 +123,17 @@ public class Phonebook {
 
                     System.out.print("Enter contacts name separated by a comma: ");
                     String contactNames = scanner.nextLine();
+                    String[] names = contactNames.split(",");
+                       for (String Cname : names) {
+                    // Search for the contact in the BST and add to the event
+                    boolean contactFound = Phonebook.contactBST.findKey(Cname.trim());
+                    if (!contactFound)
+                    System.out.println("Error: Contact '" + name.trim() + "' not found. Event not created.");
+                }
 
                     System.out.print("Enter event date and time (MM/DD/YYYY HH:MM): ");
                     String dateTimeString = scanner.nextLine();
-
-                    System.out.print("Enter event location: ");
-                    String location = scanner.nextLine();
-
-                    // Validate date/time format
+                     // Validate date/time format 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
                     Date dateTime;
                     try {
@@ -139,6 +142,12 @@ public class Phonebook {
                         System.out.println("Error: Invalid date/time format. Please use MM/DD/YYYY HH:MM.");
                         continue;  // Restart the loop
                     }
+
+                    System.out.print("Enter event location: ");
+                    String location = scanner.nextLine();
+
+                  
+                
 
                     // Create and schedule the event
                     phonebook.scheduleEvent(title, contactNames, dateTime, location);
@@ -240,7 +249,21 @@ public void searchContact(int searchCriteria, String searchTerm) {
     }
     }
 
-    private void removeContactFromEvents(Contact deletedContact) {
+    public void scheduleEvent(String title, String contactNames, Date dateTime, String location) {
+        // Split the contact names and link the event with contacts
+        linkEventWithContacts(contactNames);
+        // Check if all contacts exist in the contact BST
+        if (!validateContactsExist()) {
+            System.out.println("Error: One or more contacts do not exist in the contact BST. Event not scheduled.");
+            return;
+        }
+        // Check for conflicts with existing events for each contact
+        if (!validateNoConflicts(dateTime)) {
+            System.out.println("Error: Conflicts found with existing events. Event not scheduled.");
+            return;
+        }
+
+private void removeContactFromEvents(Contact deletedContact) {
         // Iterate through all events and remove the contact
         Node<Event> currentEvent = events.findFirst ();
         while (currentEvent != null) {
