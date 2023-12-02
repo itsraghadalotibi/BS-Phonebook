@@ -5,17 +5,15 @@ import java.sql.Time;
 public class Event implements Comparable<Event> {
     
     private String title;
-    private String date;
-    private String time;
+    private String DateTime;
     private String location;
     private boolean isEvent;
     private LinkedList<Contact> contacts;
 
-    public Event(boolean isEvent, String title, String date, String time, String location, String contactNames) {
+    public Event(boolean isEvent, String title, String DateTime, String location, String contactNames) {
         this.isEvent = isEvent;
         this.title = title;
-        this.date = date;
-        this.time = time;
+        this.DateTime = DateTime;
         this.location = location;
         this.contacts = new LinkedList<>();
         
@@ -45,20 +43,12 @@ public class Event implements Comparable<Event> {
         this.title = title;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateTime() {
+        return DateTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setDateTime(String DateTime) {
+        this.DateTime = DateTime;
     }
 
     public String getLocation() {
@@ -69,39 +59,6 @@ public class Event implements Comparable<Event> {
         this.location = location;
     }
 
-
-
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
-        this.end = end;
-    }
-
-    public Time getSt() {
-        return st;
-    }
-
-    public void setSt(Time st) {
-        this.st = st;
-    }
-
-    public Time getEd() {
-        return ed;
-    }
-
-    public void setEd(Time ed) {
-        this.ed = ed;
-    }
 
     public boolean IsEvent() {
         return isEvent;
