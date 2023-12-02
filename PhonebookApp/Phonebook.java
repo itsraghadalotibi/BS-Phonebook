@@ -1,6 +1,9 @@
 package PhonebookApp;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Phonebook {
@@ -115,8 +118,31 @@ public class Phonebook {
                 int eventType = scanner.nextInt();
                 scanner.nextLine();
                 if (eventType == 1) {
-                    // Schedule an event
-                    scheduleEvent(phonebook, scanner);
+                    System.out.print("Enter event title: ");
+                    String title = scanner.nextLine();
+
+                    System.out.print("Enter contacts name separated by a comma: ");
+                    String contactNames = scanner.nextLine();
+
+                    System.out.print("Enter event date and time (MM/DD/YYYY HH:MM): ");
+                    String dateTimeString = scanner.nextLine();
+
+                    System.out.print("Enter event location: ");
+                    String location = scanner.nextLine();
+
+                    // Validate date/time format
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                    Date dateTime;
+                    try {
+                        dateTime = dateFormat.parse(dateTimeString);
+                    } catch (ParseException e) {
+                        System.out.println("Error: Invalid date/time format. Please use MM/DD/YYYY HH:MM.");
+                        continue;  // Restart the loop
+                    }
+
+                    // Create and schedule the event
+                    phonebook.scheduleEvent(title, contactNames, dateTime, location);
+                    System.out.println("Event scheduled successfully!");
                 } else if (eventType == 2) {
                     // Schedule an appointment
                     // Implement this part based on your requirements
