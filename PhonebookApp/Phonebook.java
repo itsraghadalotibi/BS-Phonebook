@@ -127,10 +127,11 @@ public class Phonebook {
                        for (String Cname : names) {
                     // Search for the contact in the BST and add to the event
                     boolean contactFound = Phonebook.contactBST.findKey(Cname.trim());
-                    if (!contactFound)
-                    System.out.println("Error: Contact '" + name.trim() + "' not found. Event not created.");
+                    if (!contactFound){ 
+                    System.out.println("Error: Contact '" + Cname.trim() + "' not found. Event not created.");
+                    return;
                 }
-
+            }
                     System.out.print("Enter event date and time (MM/DD/YYYY HH:MM): ");
                     String dateTimeString = scanner.nextLine();
                      // Validate date/time format 
