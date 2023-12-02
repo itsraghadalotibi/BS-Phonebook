@@ -11,7 +11,7 @@ public class Event implements Comparable<Event> {
     private boolean isEvent;
     private LinkedList<Contact> contacts;
 
-    public Event(boolean isEvent,String title, String date, String time, String location) {
+    public Event(boolean isEvent, String title, String date, String time, String location, String contactNames) {
         this.isEvent = isEvent;
         this.title = title;
         this.date = date;
@@ -19,6 +19,22 @@ public class Event implements Comparable<Event> {
         this.location = location;
         this.contacts = new LinkedList<>();
         
+        // Link event with contacts using the provided contact names
+        linkEventWithContacts(contactNames);
+    }
+    private void linkEventWithContacts(String contactNames) {
+        String[] names = contactNames.split(",");
+        for (String name : names) {
+            // Search for the contact in the BST and add to the event
+            boolean contactFound = Phonebook.contactBST.findKey(name.trim());
+            if (contactFound) {
+                Contact contact = Phonebook.contactBST.retrieve();
+                addContact(contact); //insert in the contacts linked list
+            } else {
+                System.out.println("Error: Contact '" + name.trim() + "' not found. Event not created.");
+               
+            }
+        }
     }
 
     public String getTitle() {
@@ -53,13 +69,7 @@ public class Event implements Comparable<Event> {
         this.location = location;
     }
 
-    public String getContactName() {
-        return ContactName;
-    }
 
-    public void setContactName(String ContactName) {
-        this.ContactName = ContactName;
-    }
 
     public String getStart() {
         return start;
@@ -104,9 +114,6 @@ public class Event implements Comparable<Event> {
         contacts.insert(contact);
     }
     public void removeContact(Contact contact) {
-        contacts.remove(contact);
-    }
-public void removeContact(Contact contact) {
         contacts.remove(contact);
     }
 

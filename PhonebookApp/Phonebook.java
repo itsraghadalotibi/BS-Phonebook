@@ -7,10 +7,13 @@ public class Phonebook {
     
     static ContactBST contactBST;
     static LinkedList<Event> events;
+    static LinkedList<Contact> contacts;
 
     public Phonebook() {
         contactBST = new ContactBST();
         events = new LinkedList<Event>();
+        contacts = new LinkedList<>();
+        
         
     }
     public static void main(String[] args) {
@@ -54,7 +57,11 @@ public class Phonebook {
                 String notes = scanner.nextLine();
         
                 Contact newContact = new Contact(name, phoneNumber, email, address, birthday, notes);
-                phonebook.AddContact(newContact);
+                if(phonebook.AddContact(newContact)) 
+                System.out.println("Contact added successfully!");
+                else
+                System.out.println("Contact couldn't be added ");
+
                 break;
                 case 2:
                 System.out.println("Enter search criteria:");
@@ -91,16 +98,31 @@ public class Phonebook {
                 System.out.print("Enter search term for " + prompt + ": ");
                     String searchTerm = scanner.nextLine();
 
-                   if( ! phonebook.searchContact(searchCriteria, searchTerm))
+                   if(  phonebook.searchContact(searchCriteria, searchTerm))
 
                 break;
-                case 3:
+                case 3: //still
                 System.out.print("Enter the contact's name to delete: ");
                 String nameToDelete = scanner.nextLine();
                     deleteContact(nameToDelete);
                     break;
                 case 4:
-                    scheduleEvent(scanner);
+                // Schedule an event/appointment
+                System.out.println("Enter type:");
+                System.out.println("1. event");
+                System.out.println("2. appointment");
+                System.out.print("Enter your choice: ");
+                int eventType = scanner.nextInt();
+                scanner.nextLine();
+                if (eventType == 1) {
+                    // Schedule an event
+                    scheduleEvent(phonebook, scanner);
+                } else if (eventType == 2) {
+                    // Schedule an appointment
+                    // Implement this part based on your requirements
+                } else {
+                    System.out.println("Invalid choice.");
+                }
                     break;
                 case 5:
                     printEventDetails(scanner);
@@ -123,9 +145,9 @@ public class Phonebook {
 }
     
 
-public void AddContact(Contact contact){
+public boolean AddContact(Contact contact){
     
-    boolean nameInserted=false;
+    boolean nameInserted= false ;
     boolean phoneExist=contactBST.checkPhoneExist(contact.getPhoneNumber());
     if(phoneExist)
         System.out.println("cannot add , has phone exist before " + contact.getName());
@@ -134,9 +156,11 @@ public void AddContact(Contact contact){
         if (nameExists) {
             System.out.println("Cannot add, contact with the same name already exists: " + contact.getName());
         } else {
-        nameInserted = contactBST.insert(contact.getName(), contact);
+         contactBST.insert(contact.getName(), contact);
+           nameInserted = true;
     }
-}     }      
+}   return nameInserted;
+  }      
     
 public void searchContact(int searchCriteria, String searchTerm) {
     boolean contactFound = false;
@@ -190,19 +214,29 @@ public void searchContact(int searchCriteria, String searchTerm) {
     }
     }
 
-    private void removeContactFromEvents(Contact contactName) {
-
-        // Iterate through events and remove the contact
-        events.findFirst();
-        while (!events.last()) {
-            Event currentEvent = events.retrieve();
-            if (currentEvent.hasContact(contactName)) {
-                // Remove the contact from the event
-                currentEvent.removeContact(contactName);
-                System.out.println("Contact removed from event: " + currentEvent.getTitle());
+    private void removeContactFromEvents(Contact deletedContact) {
+        // Iterate through all events and remove the contact
+        Node<Event> currentEvent = events.findFirst ();
+        while (currentEvent != null) {
+            Event event = currentEvent.getData();
+            if (event.isEvent()) {
+                // For events, remove the contact from the list of contacts
+                if (event.getContacts().search(deletedContact)) {
+                    event.getContacts().remove(deletedContact);
+                    System.out.println("Contact removed from event: " + event.getTitle());
+                }
+            } else {
+                // For appointments, check if the contact matches and remove the appointment
+                if (event.getContact().equals(deletedContact)) {
+                    events.remove(currentEvent.getData());
+                    System.out.println("Appointment removed: " + event.getTitle());
+                    break;  // Assuming each contact has only one appointment
+                }
             }
-            events.findNext();
+            currentEvent = currentEvent.getNext();
         }
+    }
+        
 
     public LinkedList<Contact> SearchByFirstName(String s) {
         //not sure

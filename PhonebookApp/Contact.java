@@ -29,6 +29,7 @@ class Contact implements Comparable<Contact> {
         this.address = address;
         this.birthday = birthday;
         this.notes = notes;
+        this.events = new LinkedList<Event>();
     }
     public void addEvent(Event newEvent) {
         if (!Phonebook.contactBST.search(this)) {
@@ -38,10 +39,11 @@ class Contact implements Comparable<Contact> {
         events.insert(newEvent);
     }
     
-    public boolean removeEvent(String T){
+    public boolean removeEvent(boolean EorP ,String T){
         if (events.empty()) return false ;
         
-        Event tempEvent= new Event(T, "", "", "", "");
+        Event tempEvent= new Event( EorP,T, "", "", "", "");
+
         tempEvent.title = T;
         if(events.search(tempEvent)){
         events.remove(tempEvent);
