@@ -31,28 +31,7 @@ class Contact implements Comparable<Contact> {
         this.notes = notes;
         this.events = new LinkedList<Event>();
     }
-    public void addEvent(Event newEvent) {
-        if (!Phonebook.contactBST.search(this)) {
-            System.out.println("Error: Contact does not exist in the contact BST. Add the contact first.");
-            return;
-        }
-        events.insert(newEvent);
-    }
-    
-    public boolean removeEvent(boolean EorP ,String T){
-        if (events.empty()) return false ;
-        
-        Event tempEvent= new Event( EorP,T, "", "", "", "");
-
-        tempEvent.title = T;
-        if(events.search(tempEvent)){
-        events.remove(tempEvent);
-        return true;
-        }
-        return false;
-           
-    
-    }
+   
     public String getName() {
         return name;
     }
@@ -122,6 +101,19 @@ class Contact implements Comparable<Contact> {
         
         
         
+    }
+    public String getFirstName(){
+//find the space 
+int Space = name.indexOf(' ');
+if(Space!=-1){
+
+return name.substring(0, Space);
+}
+else{
+    return name ;
+}
+
+
     }
 
     public void printContact() {

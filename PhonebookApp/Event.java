@@ -1,38 +1,37 @@
 package PhonebookApp;
+import java.util.Date;
 
-import java.sql.Time;
 
 public class Event implements Comparable<Event> {
     
     private String title;
-    private String DateTime;
+    private Date  DateTime;
     private String location;
     private boolean isEvent;
     private LinkedList<Contact> contacts;
 
-    public Event(boolean isEvent, String title, String DateTime, String location, String contactNames) {
+    public Event(boolean isEvent, String title,Date dateTime, String location, String[] contactNames) {
+        this.isEvent = isEvent;
+        this.title = title;
+        this.DateTime = dateTime;
+        this.location = location;
+        this.contacts = new LinkedList<>();
+        
+        for (String name : contactNames) {
+            // Search for the contact in the BST and add to the event
+            
+                Contact contact = Phonebook.contactBST.retrieveByName(name);
+                addContact(contact); //insert in the contacts linked list
+        }
+    }
+
+    public Event(boolean isEvent, String title, Date DateTime, String location, Contact contactNames) {
         this.isEvent = isEvent;
         this.title = title;
         this.DateTime = DateTime;
         this.location = location;
         this.contacts = new LinkedList<>();
-        
-        // Link event with contacts using the provided contact names
-        linkEventWithContacts(contactNames);
-    }
-    private void linkEventWithContacts(String contactNames) {
-        String[] names = contactNames.split(",");
-        for (String name : names) {
-            // Search for the contact in the BST and add to the event
-            boolean contactFound = Phonebook.contactBST.findKey(name.trim());
-            if (contactFound) {
-                Contact contact = Phonebook.contactBST.retrieve();
-                addContact(contact); //insert in the contacts linked list
-            } else {
-                System.out.println("Error: Contact '" + name.trim() + "' not found. Event not created.");
-               
-            }
-        }
+        this.addContact(contactNames); //insert in the contacts linked list
     }
 
     public String getTitle() {
@@ -43,11 +42,11 @@ public class Event implements Comparable<Event> {
         this.title = title;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return DateTime;
     }
 
-    public void setDateTime(String DateTime) {
+    public void setDateTime(Date DateTime) {
         this.DateTime = DateTime;
     }
 
@@ -60,7 +59,7 @@ public class Event implements Comparable<Event> {
     }
 
 
-    public boolean IsEvent() {
+    public boolean isEvent() {
         return isEvent;
     }
 
@@ -80,13 +79,38 @@ public class Event implements Comparable<Event> {
     public LinkedList<Contact> getContacts() {
         return contacts;
     }
+    public boolean hasonflict(Event otherEvent) {
+        return this.compareTo(otherEvent) == 0;
+    }
+
     
     @Override
 public int compareTo(Event otherEvent) {
-    return this.title.compareTo(otherEvent.getTitle());
+    return this.DateTime.compareTo(otherEvent.getDateTime());
 }
 
-    
-    
-    
+    public void removeContactFromEvent(Contact deletedContact) {
+        if (isEvent()) {
+            // For events, remove the contact from the list of contacts
+            if (contacts.search(deletedContact)) {
+                contacts.remove(deletedContact);
+                System.out.println("Contact removed from event: " + getTitle());
+            }
+        } else {
+            // For appointments, check if the contact matches and remove the appointment
+            if (hasContact(deletedContact.getName())) {
+                System.out.println("Appointment removed: " + getTitle());
+            }
+        }
+    }
+    public void displayEvent() {
+        System.out.println("Event Name: " + title);
+        System.out.println("Date and Time: " + DateTime);
+        System.out.println("Location: " + location);
+        
+        System.out.println(); 
+    }
+
 }
+  
+    

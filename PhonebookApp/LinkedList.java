@@ -30,6 +30,7 @@ public class LinkedList<T extends Comparable<T>> {
         public void setNext(Node<T> next) {
             this.next = next;
         }
+    
 
     }    
 
@@ -56,39 +57,55 @@ public class LinkedList<T extends Comparable<T>> {
     }
     public void findNext () {
             current = current.next;
+    } 
+    public boolean findnext() {
+        if (current != null && current.next != null) {
+            current = current.next;
+            return true; // There is a next element
+        }
+        return false; // No next element
     }
-    public T retrieve () {
-            return current.data;
+    public T retrieve() {
+        if (head == null) {
+            // Handle the case when the list is empty
+            return null; // or throw an exception
+        }
+        return current.data;
     }
+    
     public void update (T val) {
             current.data = val;
     }
     
-    public boolean insert (T val) {
+   
            
-            Node<T> tmp;
-            Node<T> prev = null;
-            current = head;
-            while (current != null && current.getData().compareTo(val) <= 0) {
-                prev = current;
+        public void insert(T data) {
+            Node<T> newNode = new Node<>(data);
+    
+            // If the list is empty or the new node should be the first node
+            if (empty() || data.compareTo(head.getData()) < 0) {
+                newNode.setNext(head);
+                head = newNode;
+                size++;
+                return;
+            }
+    
+            Node<T> current = head;
+            Node<T> previous = null;
+    
+            // Traverse the list to find the correct position
+            while (current != null && data.compareTo(current.getData()) > 0) {
+                previous = current;
                 current = current.getNext();
             }
     
-            tmp = new Node<>(val);
-    
-            if (prev == null) {
-                // Insert at the beginning
-                tmp.setNext(head);
-                head = tmp;
-            } else {
-                // Insert somewhere in the middle or at the end
-                tmp.setNext(current);
-                prev.setNext(tmp);
-            }
+            // Insert the new node in the correct position
+            newNode.setNext(current);
+            previous.setNext(newNode);
     
             size++;
-            return true;
-    }
+        }
+    
 
     public boolean search (T contactName)
     {

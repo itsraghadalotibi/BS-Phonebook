@@ -228,7 +228,8 @@ private boolean searchByName(BSTNode node, String name) {
     
             int comparison = node.data.compareTo(new Contact(name, "", "", "", "", ""));
             if (comparison == 0) {
-                node.data.printContact();
+                {
+                node.data.printContact();}
                 return true;
             } else if (comparison < 0) {
                 return searchByName(node.left, name);
@@ -311,34 +312,58 @@ public boolean searchByBirthday(BSTNode node, String birthday) {
         
             return found || leftFound || rightFound;
         }      
- public Contact searchByFirstName(String n){
-        
-        LinkedList<Contact> matchingContacts = new LinkedList<>();
-        if(root==null) 
-            return matchingContacts;
-        rSearchByFirstName(root,matchingContacts,n);
-        return matchingContacts;
-        
-         
-    }
-    
-    private void rSearchByFirstName(BSTNode p , LinkedList<Contact> matchingContacts,String n ){
-        
-        if(p==null) return ; 
-        rSearchByFirstName(p.left,matchingContacts,n);
-        String CurFullName=p.key;
-        String FirstName = CurFullName.substring(0, CurFullName.indexOf(" "));
-        
-        if (FirstName.equals(n)){
-            matchingContacts.insert(p.data);
+
+        public Contact retrieveByName(String name) {
+            return retrieveByName(root, name);
         }
         
+        private Contact retrieveByName(BSTNode node, String name) {
+            if (node == null) {
+                return null;
+            }
         
+            int comparison = node.data.getName().compareTo(name);
+            if (comparison == 0) {
+                return node.data;
+            } else if (comparison < 0) {
+                return retrieveByName(node.right, name);
+            } else {
+                return retrieveByName(node.left, name);
+            }
+        }
         
+
+ //public Contact searchByFirstName(String n){
         
+    public void searchFirstName(String fn){
+
+        searchFirstName(root, fn);
+
+    }
+    private void searchFirstName(BSTNode p, String fn) {
+        if (p == null) {
+            return;
+        }
+    
+        // Traverse left subtree
+        searchFirstName(p.left, fn);
         
-        
+        // Check if the current node's data (contact) has the matching first name
+        if (( p.data).getFirstName().equals(fn)) {
+            System.out.println(p.data);
+        }
+    
+        // Traverse right subtree
+        searchFirstName(p.right, fn);
+    
         
     }
+       
+        
+        
+        
+        
+        
+   
 }
 
